@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Database (local data — do not commit)
+backend/data/
+
+# Uploads (user-uploaded images — do not commit)
+backend/uploads/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Build output
+frontend/dist/
+frontend/build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Vite cache
+frontend/.vite/

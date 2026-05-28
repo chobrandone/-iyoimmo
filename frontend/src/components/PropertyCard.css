@@ -1,0 +1,158 @@
+.pcard {
+  display: block;
+  background: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+.pcard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(15,28,61,0.13);
+}
+
+.pcard__cover {
+  position: relative;
+  height: 210px;
+  overflow: hidden;
+  background: linear-gradient(140deg, var(--navy-mid) 0%, var(--navy) 60%, var(--navy-dark) 100%);
+}
+.pcard--compact .pcard__cover { height: 165px; }
+
+.pcard__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s;
+}
+.pcard:hover .pcard__img { transform: scale(1.05); }
+
+/* SVG placeholder illustration */
+.pcard__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.pcard__placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 60%, rgba(217,165,33,0.18) 0%, transparent 65%);
+}
+.pcard__placeholder-building {
+  width: 80%;
+  max-width: 200px;
+  position: relative;
+  z-index: 1;
+}
+.pcard__placeholder-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.pcard__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.pcard__badge--green { background: var(--forest); color: white; }
+.pcard__badge--gold { background: var(--gold); color: var(--ink); }
+.pcard__badge--slate { background: var(--slate); color: white; }
+
+.pcard__heart {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.9);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--slate);
+  transition: all 0.15s;
+  backdrop-filter: blur(4px);
+}
+.pcard__heart:hover { color: #e74c3c; transform: scale(1.12); }
+
+.pcard__featured-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(15,20,25,0.75);
+  backdrop-filter: blur(6px);
+  color: var(--gold);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  letter-spacing: 0.5px;
+}
+
+.pcard__body { padding: 16px 18px 18px; }
+
+.pcard__price {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+.pcard__price-unit {
+  font-size: 12px;
+  color: var(--slate);
+  font-weight: 500;
+}
+
+.pcard__title {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 6px 0 5px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.pcard__loc {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--slate);
+  margin-bottom: 12px;
+}
+
+.pcard__specs {
+  display: flex;
+  gap: 12px;
+  padding-top: 11px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--slate);
+}
+.pcard__specs span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}

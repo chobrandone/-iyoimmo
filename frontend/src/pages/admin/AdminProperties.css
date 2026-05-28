@@ -1,0 +1,175 @@
+.admin-section { padding: 32px; }
+.admin-section__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.admin-section__header h1 { font-size: 24px; margin-bottom: 4px; }
+.admin-section__header p { color: var(--slate); font-size: 14px; }
+
+.dash-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  background: var(--navy);
+  color: white;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.dash-btn:hover { background: var(--navy-dark); }
+
+.admin-toolbar {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 9px 14px;
+  color: var(--slate);
+  min-width: 280px;
+}
+.search-input input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-family: inherit;
+  flex: 1;
+  background: transparent;
+}
+
+.admin-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-table { width: 100%; border-collapse: collapse; }
+.admin-table.full { min-width: 800px; }
+.admin-table th {
+  background: var(--cream);
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--slate);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.admin-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  vertical-align: middle;
+}
+.admin-table tr:last-child td { border-bottom: none; }
+.admin-table tr:hover td { background: #FAFAF8; }
+
+.table-loading { text-align: center; padding: 40px; color: var(--slate); }
+
+.prop-cell { display: flex; align-items: center; gap: 12px; }
+.prop-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.prop-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.prop-title { font-size: 13px; font-weight: 600; }
+.prop-sub { font-size: 11px; color: var(--slate); margin-top: 2px; }
+
+.toggle-btn {
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  background: var(--cream-warm);
+  color: var(--slate);
+  transition: all 0.15s;
+}
+.toggle-btn--on { background: #D6E4D9; color: var(--forest); }
+
+.table-actions { display: flex; gap: 6px; align-items: center; }
+.icon-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: var(--cream);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--slate);
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.icon-btn:hover { background: var(--cream-warm); color: var(--navy); }
+.icon-btn--danger:hover { background: #FFE8E8; color: #c0392b; }
+.icon-btn:disabled { opacity: 0.5; cursor: default; }
+
+.pill {
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+.pill--green { background: #D6E4D9; color: var(--forest); }
+.pill--gold { background: #F2E0B5; color: #7A5E1A; }
+.pill--slate { background: var(--cream-warm); color: var(--slate); }
+
+.channel-badge {
+  font-size: 11px;
+  color: var(--slate);
+  background: var(--cream);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.pagination { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.page-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  transition: all 0.15s;
+}
+.page-btn:hover:not(:disabled) { border-color: var(--navy); color: var(--navy); }
+.page-btn:disabled { opacity: 0.4; cursor: default; }
