@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: iyoimmo-api
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_PATH
+        value: ./data
+      - key: UPLOAD_PATH
+        value: ./uploads
+    disk:
+      name: iyoimmo-data
+      mountPath: /opt/render/project/src
+      sizeGB: 1

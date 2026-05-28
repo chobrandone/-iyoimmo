@@ -265,7 +265,7 @@ export default function AdminLeads() {
                       <div className="submission-images">
                         {subImages.map((url, i) => (
                           <button key={i} className="submission-img-btn" onClick={() => setLightboxImg(url)}>
-                            <img src={`http://localhost:5000${url}`} alt={`Photo ${i + 1}`} />
+                            <img src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${url}`} alt={`Photo ${i + 1}`} />
                             {i === 0 && <div className="cover-label">Cover</div>}
                           </button>
                         ))}
@@ -315,7 +315,7 @@ export default function AdminLeads() {
       {lightboxImg && (
         <div className="lightbox" onClick={() => setLightboxImg(null)}>
           <button className="lightbox-close"><Icon name="x" size={24} /></button>
-          <img src={`http://localhost:5000${lightboxImg}`} alt="Preview" onClick={e => e.stopPropagation()} />
+          <img src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${lightboxImg}`} alt="Preview" onClick={e => e.stopPropagation()} />
         </div>
       )}
     </div>

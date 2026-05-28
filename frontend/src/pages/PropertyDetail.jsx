@@ -92,7 +92,7 @@ export default function PropertyDetail() {
         <div className="gallery">
           <div className="gallery__main">
             {images.length > 0 ? (
-              <img src={`http://localhost:5000${images[activeImg]}`} alt={title} className="gallery__main-img" />
+              <img src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${images[activeImg]}`} alt={title} className="gallery__main-img" />
             ) : (
               <div className="gallery__placeholder">
                 <Icon name={property.type === 'land' ? 'tree' : 'home'} size={64} color="rgba(255,255,255,.35)" />
@@ -102,7 +102,7 @@ export default function PropertyDetail() {
           <div className="gallery__thumbs">
             {images.slice(1, 5).map((img, i) => (
               <button key={i} className={`gallery__thumb${activeImg === i + 1 ? ' gallery__thumb--active' : ''}`} onClick={() => setActiveImg(i + 1)}>
-                <img src={`http://localhost:5000${img}`} alt="" />
+                <img src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${img}`} alt="" />
                 {i === 3 && images.length > 5 && (
                   <div className="gallery__more">+{images.length - 5}</div>
                 )}
@@ -210,7 +210,7 @@ export default function PropertyDetail() {
               <div className="agent-header">
                 <div className="agent-avatar">
                   {agent.avatar ? (
-                    <img src={`http://localhost:5000${agent.avatar}`} alt={agent.name} />
+                    <img src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${agent.avatar}`} alt={agent.name} />
                   ) : (
                     <span>{agent.name?.charAt(0)}</span>
                   )}

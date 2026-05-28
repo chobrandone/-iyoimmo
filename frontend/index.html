@@ -9,6 +9,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <title>IYO Immo — Votre rêve devient réalité</title>
+  <script>
+    // Decode redirect from 404.html (GitHub Pages SPA routing)
+    (function() {
+      var redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect !== location.href) {
+        history.replaceState(null, null, redirect);
+      }
+      var p = window.location.search.slice(1);
+      if (p.indexOf('p=') === 0) {
+        var path = '/' + decodeURIComponent(p.slice(2).replace(/&/g, '?').replace(/~and~/g, '&'));
+        history.replaceState(null, null, path + window.location.hash);
+      }
+    })();
+  </script>
 </head>
 <body>
   <div id="root"></div>

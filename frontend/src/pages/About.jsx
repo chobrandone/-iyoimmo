@@ -93,7 +93,7 @@ export default function About() {
                 <div className="team-photo-wrap">
                   {member.photo ? (
                     <img
-                      src={`http://localhost:5000${member.photo}`}
+                      src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${member.photo}`}
                       alt={member.name}
                       className="team-photo"
                     />

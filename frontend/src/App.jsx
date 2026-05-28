@@ -45,8 +45,11 @@ function PublicLayout({ children }) {
 }
 
 export default function App() {
+  // Use basename for GitHub Pages (/repo-name), empty for other hosts
+  const basename = import.meta.env.BASE_URL || '/';
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <LanguageProvider>
         <AuthProvider>
           <Toaster

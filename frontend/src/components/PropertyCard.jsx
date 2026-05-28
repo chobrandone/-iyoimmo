@@ -61,8 +61,8 @@ export default function PropertyCard({ property, compact = false }) {
   const price = property.price?.toLocaleString('fr-FR');
   const isRent = property.priceUnit === 'month';
   const cover = property.coverImage
-    ? `http://localhost:5000${property.coverImage}`
-    : (property.images?.[0] ? `http://localhost:5000${property.images[0]}` : null);
+    ? `${import.meta.env.VITE_API_URL||"http://localhost:5000"}${property.coverImage}`
+    : (property.images?.[0] ? `${import.meta.env.VITE_API_URL||"http://localhost:5000"}${property.images[0]}` : null);
 
   return (
     <Link to={`/properties/${property._id}`} className={`pcard${compact ? ' pcard--compact' : ''}`}>

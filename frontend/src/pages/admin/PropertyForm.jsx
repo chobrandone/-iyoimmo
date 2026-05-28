@@ -296,7 +296,7 @@ export default function PropertyForm() {
               <div className="photos-grid">
                 {form.images.map((url, i) => (
                   <div key={i} className={`photo-item${form.coverImage === url ? ' photo-item--cover' : ''}`}>
-                    <img src={`http://localhost:5000${url}`} alt="" onClick={() => setCover(url)} title="Définir comme couverture" />
+                    <img src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${url}`} alt="" onClick={() => setCover(url)} title="Définir comme couverture" />
                     {form.coverImage === url && <div className="photo-cover">Cover</div>}
                     <button className="photo-del" onClick={() => removeImage(url)}><Icon name="x" size={10} /></button>
                   </div>

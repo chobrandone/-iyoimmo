@@ -3,7 +3,12 @@ import axios from 'axios';
 
 const AuthContext = createContext(null);
 
-const api = axios.create({ baseURL: '/api' });
+// Use VITE_API_URL in production (Render backend), fall back to local proxy
+const API_BASE = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api`
+  : '/api';
+
+const api = axios.create({ baseURL: API_BASE });
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');

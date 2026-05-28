@@ -94,7 +94,7 @@ export default function AdminTeam() {
           <div className="team-photo-upload">
             <div className="team-photo-preview">
               {form.photo ? (
-                <img src={`http://localhost:5000${form.photo}`} alt="Photo" className="team-photo-img" />
+                <img src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${form.photo}`} alt="Photo" className="team-photo-img" />
               ) : (
                 <div className="team-photo-empty">
                   <Icon name="camera" size={28} color="var(--slate)" />
@@ -161,7 +161,7 @@ export default function AdminTeam() {
                 <td>
                   <div className="member-avatar">
                     {m.photo ? (
-                      <img src={`http://localhost:5000${m.photo}`} alt={m.name} />
+                      <img src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${m.photo}`} alt={m.name} />
                     ) : (
                       <span>{m.name?.charAt(0)}</span>
                     )}
