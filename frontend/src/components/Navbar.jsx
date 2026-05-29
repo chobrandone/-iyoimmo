@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useLang } from '../context/LanguageContext';
+import { usePublicUser } from '../context/UserContext';
 import Logo from './Logo';
 import Icon from './icons';
 import './Navbar.css';
 
 export default function Navbar() {
   const { lang, toggle, t } = useLang();
-  const [scrolled, setScrolled] = useState(false);
+  const { publicUser, logoutUser } = usePublicUser();
+  const [scrolled, setScrolled]   = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -45,6 +47,15 @@ export default function Navbar() {
           <Link to="/list-property" className="navbar__btn navbar__btn--primary">
             {t.nav.listProperty}
           </Link>
+          {publicUser ? (
+            <button className="navbar__btn" onClick={logoutUser} style={{ background: 'transparent', border: '1.5px solid var(--line)', color: 'var(--navy)' }}>
+              {publicUser.name?.split(' ')[0]} ✕
+            </button>
+          ) : (
+            <Link to="/user-login" className="navbar__btn" style={{ background: 'transparent', border: '1.5px solid var(--line)', color: 'var(--navy)' }}>
+              {lang === 'fr' ? 'Connexion' : 'Login'}
+            </Link>
+          )}
           <button className="navbar__mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
             <Icon name={mobileOpen ? 'x' : 'menu'} size={22} />
           </button>

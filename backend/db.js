@@ -1,29 +1,40 @@
 require('dotenv').config();
-const Datastore = require('@seald-io/nedb');
-const path = require('path');
-const fs   = require('fs');
+const { createClient } = require('@supabase/supabase-js');
 
-const dataDir = process.env.DB_PATH || './data';
-if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+                 || process.env.SUPABASE_ANON_KEY
+                 || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
-const mkStore = (name) => new Datastore({
-  filename: path.join(dataDir, `${name}.db`),
-  autoload: true,
-  timestampData: true,
+if (!supabaseUrl || !supabaseKey) {
+  console.error('❌  SUPABASE_URL and SUPABASE key must be set in .env');
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: { persistSession: false, autoRefreshToken: false },
 });
 
-const db = {
-  users:      mkStore('users'),
-  properties: mkStore('properties'),
-  leads:      mkStore('leads'),
-  team:       mkStore('team'),
-};
+// ── Normalisation helpers ────────────────────────────────────────────────────
+// Convert snake_case column names → camelCase (top-level only, so JSONB stays intact)
+const s2c = k => k.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
 
-// Indexes
-db.users.ensureIndex({ fieldName: 'email', unique: true });
-db.properties.ensureIndex({ fieldName: 'refId', unique: true });
-db.properties.ensureIndex({ fieldName: 'intent' });
-db.properties.ensureIndex({ fieldName: 'isPublished' });
-db.leads.ensureIndex({ fieldName: 'status' });
+/**
+ * normalize(data) — call on every Supabase response before sending to frontend:
+ *  • snake_case keys  →  camelCase
+ *  • id               →  _id  (backward compat with existing frontend code)
+ */
+function normalize(data) {
+  if (data === null || data === undefined) return null;
+  if (Array.isArray(data)) return data.map(normalize);
+  if (typeof data !== 'object') return data;
 
-module.exports = db;
+  const out = {};
+  for (const [k, v] of Object.entries(data)) {
+    out[s2c(k)] = v;      // keep JSONB values (title, specs…) as-is
+  }
+  if (out.id !== undefined) out._id = out.id;
+  return out;
+}
+
+module.exports = { supabase, normalize };

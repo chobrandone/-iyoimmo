@@ -1,7 +1,7 @@
 {
   "name": "iyoimmo-backend",
   "version": "1.0.0",
-  "description": "IYO Immo Real Estate Platform — Node.js + NeDB (pure JS, no install needed)",
+  "description": "IYO Immo Real Estate Platform — Node.js + Supabase",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,7 +9,7 @@
     "setup": "node setup.js"
   },
   "dependencies": {
-    "@seald-io/nedb": "^4.0.4",
+    "@supabase/supabase-js": "^2.106.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
