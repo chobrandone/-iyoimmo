@@ -20,8 +20,9 @@ export default function AdminLogin() {
     try {
       await login(email, password);
       navigate('/admin');
-    } catch {
-      toast.error('Identifiants incorrects');
+    } catch (err) {
+      const msg = err?.response?.data?.message || err?.message || 'Identifiants incorrects';
+      toast.error(msg);
     }
     setLoading(false);
   };
