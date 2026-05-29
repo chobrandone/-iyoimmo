@@ -8,10 +8,11 @@ backend/data/
 # Uploads (user-uploaded images — do not commit)
 backend/uploads/
 
-# Environment files
-.env
-.env.local
-.env.production
+# Environment files — keep frontend local env out of git
+frontend/.env.local
+frontend/.env.production
+# NOTE: backend/.env IS committed so Hostinger gets the config
+# (rotate JWT_SECRET if deploying publicly with real data)
 
 # Build output (frontend builds into backend/public — commit that, not dist)
 frontend/dist/
