@@ -12,6 +12,8 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
   'https://chobrandone.github.io',
+  'https://iyoimmobilier.com',
+  'https://www.iyoimmobilier.com',
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
