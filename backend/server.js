@@ -32,6 +32,11 @@ const uploadDir = process.env.UPLOAD_PATH || './uploads';
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 app.use('/uploads', express.static(path.resolve(uploadDir)));
 
+// ── Health check (Hostinger pings / on startup) ───────────────────────────────
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', app: 'IYO Immo API', version: '1.0.0' });
+});
+
 // ── API routes ────────────────────────────────────────────────────────────────
 app.use('/api/auth',       require('./routes/auth'));
 app.use('/api/properties', require('./routes/properties'));
