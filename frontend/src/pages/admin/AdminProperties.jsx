@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../context/AuthContext';
 import { useLang } from '../../context/LanguageContext';
 import Icon from '../../components/icons';
+import { assetUrl } from '../../utils/url';
 import toast from 'react-hot-toast';
 import './AdminProperties.css';
 
@@ -100,7 +101,7 @@ export default function AdminProperties() {
                   <div className="prop-cell">
                     <div className="prop-thumb">
                       {p.coverImage ? (
-                        <img src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${p.coverImage}`} alt="" />
+                        <img src={assetUrl(p.coverImage)} alt="" />
                       ) : (
                         <Icon name="home" size={18} color="var(--slate)" />
                       )}

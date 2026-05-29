@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { api } from '../../context/AuthContext';
 import Icon from '../../components/icons';
+import { assetUrl } from '../../utils/url';
 import toast from 'react-hot-toast';
 import './AdminProperties.css';
 import './AdminTeam.css';
@@ -94,7 +95,7 @@ export default function AdminTeam() {
           <div className="team-photo-upload">
             <div className="team-photo-preview">
               {form.photo ? (
-                <img src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${form.photo}`} alt="Photo" className="team-photo-img" />
+                <img src={assetUrl(form.photo)} alt="Photo" className="team-photo-img" />
               ) : (
                 <div className="team-photo-empty">
                   <Icon name="camera" size={28} color="var(--slate)" />
@@ -161,7 +162,7 @@ export default function AdminTeam() {
                 <td>
                   <div className="member-avatar">
                     {m.photo ? (
-                      <img src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${m.photo}`} alt={m.name} />
+                      <img src={assetUrl(m.photo)} alt={m.name} />
                     ) : (
                       <span>{m.name?.charAt(0)}</span>
                     )}

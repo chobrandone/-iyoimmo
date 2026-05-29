@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../../context/AuthContext';
 import Icon from '../../components/icons';
+import { assetUrl } from '../../utils/url';
 import toast from 'react-hot-toast';
 import './PropertyForm.css';
 
@@ -296,7 +297,7 @@ export default function PropertyForm() {
               <div className="photos-grid">
                 {form.images.map((url, i) => (
                   <div key={i} className={`photo-item${form.coverImage === url ? ' photo-item--cover' : ''}`}>
-                    <img src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${url}`} alt="" onClick={() => setCover(url)} title="Définir comme couverture" />
+                    <img src={assetUrl(url)} alt="" onClick={() => setCover(url)} title="Définir comme couverture" />
                     {form.coverImage === url && <div className="photo-cover">Cover</div>}
                     <button className="photo-del" onClick={() => removeImage(url)}><Icon name="x" size={10} /></button>
                   </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLang } from '../context/LanguageContext';
 import { api } from '../context/AuthContext';
 import Icon from '../components/icons';
+import { assetUrl } from '../utils/url';
 import './About.css';
 
 export default function About() {
@@ -93,7 +94,7 @@ export default function About() {
                 <div className="team-photo-wrap">
                   {member.photo ? (
                     <img
-                      src={`${import.meta.env.VITE_API_URL||"http://localhost:5000"}${member.photo}`}
+                      src={assetUrl(member.photo)}
                       alt={member.name}
                       className="team-photo"
                     />

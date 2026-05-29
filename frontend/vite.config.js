@@ -1,19 +1,21 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig(() => ({
   plugins: [react()],
-  // Base path: '/-iyoimmo/' for GitHub Pages, '/' for local/Render
-  base: mode === 'production' ? '/-iyoimmo/' : '/',
+  base: '/',
   server: {
     port: 3000,
     proxy: {
-      '/api': { target: 'http://localhost:5000', changeOrigin: true },
+      // In dev, proxy /api and /uploads to the local backend
+      '/api':     { target: 'http://localhost:5000', changeOrigin: true },
       '/uploads': { target: 'http://localhost:5000', changeOrigin: true },
     },
   },
   build: {
-    outDir: 'dist',
+    // Output directly into backend/public — Express will serve it on Hostinger
+    outDir: '../backend/public',
+    emptyOutDir: true,
     sourcemap: false,
   },
 }));

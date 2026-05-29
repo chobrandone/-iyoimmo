@@ -13,9 +13,10 @@ backend/uploads/
 .env.local
 .env.production
 
-# Build output
+# Build output (frontend builds into backend/public — commit that, not dist)
 frontend/dist/
 frontend/build/
+# Do NOT ignore backend/public — that's the built frontend served by Express
 
 # Logs
 *.log

@@ -32,10 +32,11 @@ const uploadDir = process.env.UPLOAD_PATH || './uploads';
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 app.use('/uploads', express.static(path.resolve(uploadDir)));
 
-// ── Health check (Hostinger pings / on startup) ───────────────────────────────
-app.get('/', (req, res) => {
-  res.json({ status: 'ok', app: 'IYO Immo API', version: '1.0.0' });
-});
+// ── Serve built React frontend (backend/public/) ──────────────────────────────
+const publicDir = path.join(__dirname, 'public');
+if (fs.existsSync(publicDir)) {
+  app.use(express.static(publicDir));
+}
 
 // ── API routes ────────────────────────────────────────────────────────────────
 app.use('/api/auth',       require('./routes/auth'));
@@ -55,6 +56,17 @@ app.get('/api/stats', async (req, res) => {
     ]);
     res.json({ totalProperties, availableProperties, totalLeads, newLeads, featuredProperties });
   } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+// ── SPA fallback — serve index.html for all non-API routes ───────────────────
+// This makes React Router work on Hostinger (direct URL access / page refresh)
+app.get('*', (req, res) => {
+  const index = path.join(__dirname, 'public', 'index.html');
+  if (fs.existsSync(index)) {
+    res.sendFile(index);
+  } else {
+    res.json({ status: 'ok', app: 'IYO Immo API', version: '1.0.0' });
+  }
 });
 
 // ── Error handler ─────────────────────────────────────────────────────────────

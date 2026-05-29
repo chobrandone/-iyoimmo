@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useLang } from '../context/LanguageContext';
 import Icon from './icons';
+import { assetUrl } from '../utils/url';
 import './PropertyCard.css';
 
 const STATUS_COLORS = { available: 'green', reserved: 'gold', rented: 'slate', sold: 'slate' };
@@ -61,8 +62,8 @@ export default function PropertyCard({ property, compact = false }) {
   const price = property.price?.toLocaleString('fr-FR');
   const isRent = property.priceUnit === 'month';
   const cover = property.coverImage
-    ? `${import.meta.env.VITE_API_URL||"http://localhost:5000"}${property.coverImage}`
-    : (property.images?.[0] ? `${import.meta.env.VITE_API_URL||"http://localhost:5000"}${property.images[0]}` : null);
+    ? assetUrl(property.coverImage)
+    : (property.images?.[0] ? assetUrl(property.images[0]) : null);
 
   return (
     <Link to={`/properties/${property._id}`} className={`pcard${compact ? ' pcard--compact' : ''}`}>
