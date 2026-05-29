@@ -13,13 +13,14 @@ services:
         value: 10000
       - key: JWT_SECRET
         generateValue: true
-      - key: DB_PATH
-        value: /var/data/db
-      - key: UPLOAD_PATH
-        value: /var/data/uploads
       - key: FRONTEND_URL
         value: https://chobrandone.github.io
-    disk:
-      name: iyoimmo-data
-      mountPath: /var/data
-      sizeGB: 1
+      # Firebase — set these in the Render dashboard (from your service account JSON)
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: FIREBASE_CLIENT_EMAIL
+        sync: false
+      - key: FIREBASE_PRIVATE_KEY
+        sync: false
+      - key: FIREBASE_STORAGE_BUCKET
+        sync: false

@@ -1,36 +1,43 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
+const cors    = require('cors');
+const path    = require('path');
+const fs      = require('fs');
+const db      = require('./db');
 
-const db = require('./db');
 const app = express();
 
+// ── CORS ─────────────────────────────────────────────────────────────────────
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
   'https://chobrandone.github.io',
-  process.env.FRONTEND_URL,
+  process.env.FRONTEND_URL,          // set this on Hostinger to your domain
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, cb) => {
-    // allow server-to-server or curl (no origin header)
-    if (!origin) return cb(null, true);
-    if (allowedOrigins.includes(origin)) return cb(null, true);
+    if (!origin) return cb(null, true); // curl / server-to-server
+    if (allowedOrigins.some(o => origin.startsWith(o))) return cb(null, true);
     cb(new Error(`CORS: origin ${origin} not allowed`));
   },
   credentials: true,
 }));
+
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.use('/api/auth', require('./routes/auth'));
+// ── Static uploads ────────────────────────────────────────────────────────────
+const uploadDir = process.env.UPLOAD_PATH || './uploads';
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+app.use('/uploads', express.static(path.resolve(uploadDir)));
+
+// ── API routes ────────────────────────────────────────────────────────────────
+app.use('/api/auth',       require('./routes/auth'));
 app.use('/api/properties', require('./routes/properties'));
-app.use('/api/leads', require('./routes/leads'));
-app.use('/api/team', require('./routes/team'));
-app.use('/api/upload', require('./routes/upload'));
+app.use('/api/leads',      require('./routes/leads'));
+app.use('/api/team',       require('./routes/team'));
+app.use('/api/upload',     require('./routes/upload'));
 
 app.get('/api/stats', async (req, res) => {
   try {
@@ -45,13 +52,16 @@ app.get('/api/stats', async (req, res) => {
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
+// ── Error handler ─────────────────────────────────────────────────────────────
 app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
 });
 
+// ── Start ─────────────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n✅ IYO Immo API → http://localhost:${PORT}`);
-  console.log(`📂 Data folder: ${path.resolve(process.env.DB_PATH || './data')}`);
+  console.log(`📂 Data    : ${path.resolve(process.env.DB_PATH || './data')}`);
+  console.log(`🖼  Uploads : ${path.resolve(uploadDir)}`);
   console.log(`\n   First time? Run: node setup.js\n`);
 });
