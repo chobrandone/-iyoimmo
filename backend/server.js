@@ -74,11 +74,28 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
 });
 
+// ── Auto-seed on first startup ────────────────────────────────────────────────
+async function autoSeed() {
+  try {
+    const count = await db.users.countAsync({});
+    if (count === 0) {
+      console.log('📦 No users found — seeding database with default data...');
+      const seedDatabase = require('./seed');
+      await seedDatabase();
+      console.log('✅ Database seeded!');
+      console.log('   Admin:  admin@iyoimmo.com  /  Admin@2026');
+      console.log('   Agent:  jean@iyoimmo.com   /  Agent@2026\n');
+    }
+  } catch (err) {
+    console.error('⚠️  Auto-seed failed:', err.message);
+  }
+}
+
 // ── Start ─────────────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, '0.0.0.0', async () => {
   console.log(`\n✅ IYO Immo API → http://localhost:${PORT}`);
   console.log(`📂 Data    : ${path.resolve(process.env.DB_PATH || './data')}`);
   console.log(`🖼  Uploads : ${path.resolve(uploadDir)}`);
-  console.log(`\n   First time? Run: node setup.js\n`);
+  await autoSeed();
 });
