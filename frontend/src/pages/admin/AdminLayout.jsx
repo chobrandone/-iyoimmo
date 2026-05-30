@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useLang } from '../../context/LanguageContext';
 import Logo from '../../components/Logo';
 import Icon from '../../components/icons';
+import { assetUrl } from '../../utils/url';
 import './AdminLayout.css';
 
 export default function AdminLayout() {
@@ -47,7 +48,12 @@ export default function AdminLayout() {
           </Link>
 
           <div className="admin-user">
-            <div className="admin-user__avatar">{user?.name?.charAt(0)}</div>
+            <div className="admin-user__avatar">
+              {user?.avatar
+                ? <img src={assetUrl(user.avatar)} alt={user.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                : user?.name?.charAt(0)
+              }
+            </div>
             <div className="admin-user__info">
               <div className="admin-user__name">{user?.name}</div>
               <div className="admin-user__role">{user?.role}</div>

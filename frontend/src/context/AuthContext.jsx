@@ -44,8 +44,16 @@ export function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
+  // Call this after patching profile so the sidebar/avatar updates immediately
+  const refreshUser = useCallback(async () => {
+    try {
+      const { data } = await api.get('/auth/me');
+      setUser(data);
+    } catch {}
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, api }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, refreshUser, api }}>
       {children}
     </AuthContext.Provider>
   );

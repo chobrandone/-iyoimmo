@@ -40,10 +40,14 @@ router.get('/me', protect, (req, res) => res.json(safeUser(req.user)));
 // PATCH /api/auth/me
 router.patch('/me', protect, async (req, res) => {
   try {
-    const { name, phone } = req.body;
+    const { name, phone, avatar } = req.body;
+    const update = { updated_at: new Date().toISOString() };
+    if (name   !== undefined) update.name   = name;
+    if (phone  !== undefined) update.phone  = phone;
+    if (avatar !== undefined) update.avatar = avatar;
     const { data, error } = await supabase
       .from('admin_users')
-      .update({ name, phone, updated_at: new Date().toISOString() })
+      .update(update)
       .eq('id', req.user._id)
       .select().single();
     if (error) throw error;
