@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../../context/AuthContext';
 import Icon from '../../components/icons';
 import { assetUrl } from '../../utils/url';
+import LocationSearch from '../../components/LocationSearch';
 import toast from 'react-hot-toast';
 import './PropertyForm.css';
 
@@ -227,14 +228,37 @@ export default function PropertyForm() {
           {/* Location */}
           <div className="form-card">
             <h3>Localisation</h3>
+            <div className="field" style={{ marginBottom: 12 }}>
+              <label>Recherche sur la carte</label>
+              <LocationSearch
+                value={form.neighbourhood || form.address || ''}
+                onChange={() => {}}
+                onSelect={({ neighbourhood, address }) => {
+                  if (neighbourhood) set('neighbourhood', neighbourhood);
+                  if (address)       set('address', address);
+                }}
+                placeholder="Ex : Boy-Rabe, Bangui, Sica 2..."
+              />
+              <p style={{ fontSize: 11, color: 'var(--slate)', marginTop: 4 }}>
+                Tapez un quartier ou une adresse — suggestions OpenStreetMap (Afrique Centrale)
+              </p>
+            </div>
             <div className="field-row">
               <div className="field">
                 <label>Quartier *</label>
-                <input value={form.neighbourhood} onChange={e => set('neighbourhood', e.target.value)} placeholder="Boy-Rabe" />
+                <input
+                  value={form.neighbourhood}
+                  onChange={e => set('neighbourhood', e.target.value)}
+                  placeholder="Boy-Rabe"
+                />
               </div>
               <div className="field">
                 <label>Adresse</label>
-                <input value={form.address} onChange={e => set('address', e.target.value)} placeholder="Rue, Numéro..." />
+                <input
+                  value={form.address}
+                  onChange={e => set('address', e.target.value)}
+                  placeholder="Rue, Numéro..."
+                />
               </div>
             </div>
           </div>
