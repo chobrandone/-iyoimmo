@@ -25,15 +25,38 @@ const EMPTY = {
   images: [], coverImage: '',
 };
 
+// Small reusable language tab
+function LangTab({ lang, setLang }) {
+  return (
+    <div style={{ display: 'inline-flex', border: '1.5px solid var(--line)', borderRadius: 8, overflow: 'hidden', marginBottom: 10 }}>
+      {['fr', 'en'].map(l => (
+        <button
+          key={l}
+          type="button"
+          onClick={() => setLang(l)}
+          style={{
+            padding: '4px 14px', fontSize: 12, fontWeight: 700, border: 'none', cursor: 'pointer',
+            background: lang === l ? 'var(--navy)' : 'transparent',
+            color: lang === l ? 'white' : 'var(--slate)',
+          }}
+        >
+          {l.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export default function PropertyForm() {
   const { id } = useParams();
   const navigate = useNavigate();
   const isEdit = !!id;
 
-  const [form, setForm] = useState(EMPTY);
+  const [form, setForm]             = useState(EMPTY);
+  const [formLang, setFormLang]     = useState('fr');   // language for bilingual fields
   const [uploadingImages, setUploadingImages] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [agents, setAgents] = useState([]);
+  const [saving, setSaving]         = useState(false);
+  const [agents, setAgents]         = useState([]);
 
   useEffect(() => {
     api.get('/team/users').then(r => setAgents(r.data || [])).catch(() => {});
@@ -140,24 +163,26 @@ export default function PropertyForm() {
         <div className="prop-form__main">
           {/* Basic info */}
           <div className="form-card">
-            <h3>Informations générales</h3>
-            <div className="field-row">
-              <div className="field">
-                <label>Titre (FR) *</label>
-                <input value={form.title.fr} onChange={e => set('title.fr', e.target.value)} placeholder="Villa moderne 4 chambres..." />
-              </div>
-              <div className="field">
-                <label>Title (EN) *</label>
-                <input value={form.title.en} onChange={e => set('title.en', e.target.value)} placeholder="Modern 4-bedroom villa..." />
-              </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+              <h3 style={{ margin: 0 }}>Informations générales</h3>
+              <LangTab lang={formLang} setLang={setFormLang} />
             </div>
             <div className="field">
-              <label>Description (FR) *</label>
-              <textarea rows={4} value={form.description.fr} onChange={e => set('description.fr', e.target.value)} placeholder="Décrivez la propriété..." />
+              <label>{formLang === 'fr' ? 'Titre *' : 'Title *'}</label>
+              <input
+                value={form.title[formLang]}
+                onChange={e => set(`title.${formLang}`, e.target.value)}
+                placeholder={formLang === 'fr' ? 'Villa moderne 4 chambres...' : 'Modern 4-bedroom villa...'}
+              />
             </div>
             <div className="field">
-              <label>Description (EN) *</label>
-              <textarea rows={4} value={form.description.en} onChange={e => set('description.en', e.target.value)} placeholder="Describe the property..." />
+              <label>{formLang === 'fr' ? 'Description *' : 'Description *'}</label>
+              <textarea
+                rows={4}
+                value={form.description[formLang]}
+                onChange={e => set(`description.${formLang}`, e.target.value)}
+                placeholder={formLang === 'fr' ? 'Décrivez la propriété...' : 'Describe the property...'}
+              />
             </div>
             <div className="field">
               <label>À proximité</label>

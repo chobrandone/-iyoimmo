@@ -8,11 +8,33 @@ import './AdminTeam.css';
 
 const EMPTY = { name: '', role_fr: '', role_en: '', phone: '', email: '', order: 0, photo: '' };
 
+function LangTab({ lang, setLang }) {
+  return (
+    <div style={{ display: 'inline-flex', border: '1.5px solid var(--line)', borderRadius: 8, overflow: 'hidden' }}>
+      {['fr', 'en'].map(l => (
+        <button
+          key={l}
+          type="button"
+          onClick={() => setLang(l)}
+          style={{
+            padding: '4px 14px', fontSize: 12, fontWeight: 700, border: 'none', cursor: 'pointer',
+            background: lang === l ? 'var(--navy)' : 'transparent',
+            color: lang === l ? 'white' : 'var(--slate)',
+          }}
+        >
+          {l.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export default function AdminTeam() {
-  const [members, setMembers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState(EMPTY);
-  const [editing, setEditing] = useState(null);
+  const [members, setMembers]   = useState([]);
+  const [loading, setLoading]   = useState(true);
+  const [form, setForm]         = useState(EMPTY);
+  const [roleLang, setRoleLang] = useState('fr');
+  const [editing, setEditing]   = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [uploading, setUploading] = useState(false);
 
@@ -82,7 +104,7 @@ export default function AdminTeam() {
           <h1>Équipe</h1>
           <p>{members.length} membre{members.length !== 1 ? 's' : ''}</p>
         </div>
-        <button className="dash-btn" onClick={() => { setShowForm(!showForm); setEditing(null); setForm(EMPTY); }}>
+        <button className="dash-btn" onClick={() => { setShowForm(!showForm); setEditing(null); setForm(EMPTY); setRoleLang('fr'); }}>
           <Icon name="plus" size={16} /> Ajouter un membre
         </button>
       </div>
@@ -122,9 +144,16 @@ export default function AdminTeam() {
             <div className="field"><label>Nom complet *</label><input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Jean Mbongo" /></div>
             <div className="field"><label>Ordre d'affichage</label><input type="number" value={form.order} onChange={e => setForm(f => ({ ...f, order: e.target.value }))} /></div>
           </div>
-          <div className="field-row">
-            <div className="field"><label>Rôle (Français)</label><input value={form.role_fr} onChange={e => setForm(f => ({ ...f, role_fr: e.target.value }))} placeholder="Agent Senior" /></div>
-            <div className="field"><label>Role (English)</label><input value={form.role_en} onChange={e => setForm(f => ({ ...f, role_en: e.target.value }))} placeholder="Senior Agent" /></div>
+          <div className="field">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+              <label style={{ margin: 0 }}>Rôle</label>
+              <LangTab lang={roleLang} setLang={setRoleLang} />
+            </div>
+            <input
+              value={roleLang === 'fr' ? form.role_fr : form.role_en}
+              onChange={e => setForm(f => ({ ...f, [roleLang === 'fr' ? 'role_fr' : 'role_en']: e.target.value }))}
+              placeholder={roleLang === 'fr' ? 'Agent Senior' : 'Senior Agent'}
+            />
           </div>
           <div className="field-row">
             <div className="field"><label>Téléphone</label><input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="+236 72 63 71 71" /></div>
