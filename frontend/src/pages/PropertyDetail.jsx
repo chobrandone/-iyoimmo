@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useLang } from '../context/LanguageContext';
 import { api } from '../context/AuthContext';
 import PropertyCard from '../components/PropertyCard';
+import MapEmbed from '../components/MapEmbed';
 import Icon from '../components/icons';
 import { assetUrl } from '../utils/url';
 import toast from 'react-hot-toast';
@@ -195,12 +196,15 @@ export default function PropertyDetail() {
             {/* Location */}
             <div className="desc-block">
               <h3>{t.property.location}</h3>
-              <div className="map-placeholder">
-                <Icon name="map" size={28} color="rgba(255,255,255,.6)" />
-                <span>Carte — {property.neighbourhood}, Bangui</span>
-              </div>
+              <MapEmbed
+                query={[property.address, property.neighbourhood, 'Bangui'].filter(Boolean).join(', ')}
+                height={320}
+                zoom={15}
+              />
               {property.nearby && (
-                <p className="nearby-text"><strong>{t.property.nearby} :</strong> {property.nearby}</p>
+                <p className="nearby-text" style={{ marginTop: 10 }}>
+                  <strong>{t.property.nearby} :</strong> {property.nearby}
+                </p>
               )}
             </div>
           </div>

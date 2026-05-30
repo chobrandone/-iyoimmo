@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLang } from '../context/LanguageContext';
 import { api } from '../context/AuthContext';
 import Icon from '../components/icons';
+import MapEmbed from '../components/MapEmbed';
 import toast from 'react-hot-toast';
 import './Contact.css';
 
@@ -60,9 +61,12 @@ export default function Contact() {
                 </div>
               ))}
 
-              <div className="map-placeholder contact-map">
-                <Icon name="map" size={24} color="rgba(255,255,255,.6)" />
-                <span>{t.contact.map}</span>
+              <div style={{ marginTop: 24 }}>
+                <MapEmbed
+                  query="Avenue Boganda, Bangui, République Centrafricaine"
+                  height={260}
+                  zoom={15}
+                />
               </div>
             </div>
 
