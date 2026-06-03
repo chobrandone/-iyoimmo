@@ -53,8 +53,15 @@
 
 @media (max-width: 900px) {
   .services-grid { grid-template-columns: 1fr 1fr; }
-  .cta-banner { flex-direction: column; text-align: center; padding: 36px 28px; }
+  .cta-banner { flex-direction: column; text-align: center; padding: 32px 24px; gap: 20px; border-radius: 12px; }
+  .cta-banner__text p { max-width: 100%; }
+  .cta-banner__btn { width: 100%; justify-content: center; }
+  .services-hero h1 { font-size: 34px; }
 }
 @media (max-width: 560px) {
   .services-grid { grid-template-columns: 1fr; }
+  .services-hero { padding: 60px 0 40px; }
+  .services-hero h1 { font-size: 28px; }
+  .services-hero p { font-size: 15px; }
+  .service-card { padding: 24px 20px; }
 }

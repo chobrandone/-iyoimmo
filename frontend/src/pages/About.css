@@ -223,18 +223,27 @@
 
 /* Responsive */
 @media (max-width: 1050px) {
-  .about-story { grid-template-columns: 1fr; }
+  .about-story { grid-template-columns: 1fr; gap: 32px; }
   .about-story__card { display: none; }
   .values-grid { grid-template-columns: repeat(2, 1fr); }
   .about-stats__grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .about-stat__value { font-size: 36px; }
 }
 @media (max-width: 768px) {
-  .about-hero__title { font-size: 32px; }
-  .team-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  .team-photo-wrap { height: 200px; }
+  .about-hero { padding: 60px 0 48px; }
+  .about-hero__title { font-size: 30px; letter-spacing: -0.5px; }
+  .about-hero__subtitle { font-size: 16px; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .team-photo-wrap { height: 180px; }
+  .section-title { font-size: 24px; }
 }
 @media (max-width: 560px) {
+  .about-hero__title { font-size: 26px; }
   .values-grid { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr; }
-  .about-stats__grid { grid-template-columns: repeat(2, 1fr); }
+  .about-stats__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .about-stats { padding: 40px 0; }
+  .about-stat__value { font-size: 32px; }
+  .value-card { padding: 24px 20px; }
+  .team-photo-wrap { height: 220px; }
 }

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { supabase, normalize } = require('../db');
 const { protect } = require('../middleware/auth');
+const { sendContactEmails } = require('../utils/mailer');
 
 // ── Public: submit a lead / form ──────────────────────────────────────────────
 router.post('/', async (req, res) => {
@@ -32,6 +33,20 @@ router.post('/', async (req, res) => {
       notes:           '',
     }).select().single();
     if (error) throw error;
+
+    // Send emails for contact form, visit request, and property submission
+    const emailTypes = ['contact', 'visit_request', 'property_submission', 'inquiry'];
+    if (emailTypes.includes(b.type || 'contact')) {
+      sendContactEmails({
+        name:    b.name    || 'Visiteur',
+        email:   b.email   || '',
+        phone:   b.phone   || '',
+        subject: b.subject || b.type || 'Nouveau message',
+        message: b.message || '',
+        type:    b.type    || 'contact',
+      }).catch(err => console.error('Mail send error:', err.message));
+    }
+
     res.status(201).json(normalize(data));
   } catch (err) { res.status(400).json({ message: err.message }); }
 });

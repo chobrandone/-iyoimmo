@@ -291,17 +291,33 @@
 @media (max-width: 1100px) {
   .cards-grid { grid-template-columns: repeat(2, 1fr); }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .intent-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
-  .hero__title { font-size: 32px; }
-  .hero__subtitle { font-size: 15px; }
-  .search-box__form { flex-direction: column; }
-  .search-box__field { border-right: none; border-bottom: 1px solid var(--line); }
-  .search-box__btn { margin: 8px 0 0; width: 100%; justify-content: center; }
-  .intent-grid { grid-template-columns: 1fr; }
-  .why-grid { grid-template-columns: 1fr; }
+  .hero { padding: 80px 16px 48px; min-height: auto; }
+  .hero__title { font-size: 30px; letter-spacing: -1px; }
+  .hero__subtitle { font-size: 15px; margin-bottom: 24px; }
+  .search-box__tabs { gap: 2px; }
+  .search-box__tab { padding: 8px 12px; font-size: 12px; }
+  .search-box__form { flex-direction: column; padding: 6px; }
+  .search-box__field { border-right: none; border-bottom: 1px solid var(--line); padding: 10px 12px; }
+  .search-box__field:last-of-type { border-bottom: none; }
+  .search-box__btn { margin: 6px 0 0; width: 100%; justify-content: center; border-radius: 8px; }
+  .intent-grid { grid-template-columns: 1fr; gap: 12px; }
+  .why-grid { grid-template-columns: 1fr; gap: 16px; }
   .cards-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .stat-item__value { font-size: 32px; }
+  .section { padding: 48px 0; }
   .section__header { flex-direction: column; align-items: flex-start; gap: 8px; }
-  .cta-banner { flex-direction: column; text-align: center; padding: 36px 28px; }
-  .cta-banner__text p { max-width: 100%; }
+  .section__header h2 { font-size: 22px; }
+  .cta-banner { flex-direction: column; text-align: center; padding: 28px 20px; gap: 20px; border-radius: 12px; }
+  .cta-banner__text h3 { font-size: 20px; }
+  .cta-banner__text p { max-width: 100%; font-size: 14px; }
+  .cta-banner__btn { width: 100%; justify-content: center; }
+}
+@media (max-width: 480px) {
+  .hero__title { font-size: 26px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
