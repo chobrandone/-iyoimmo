@@ -34,17 +34,36 @@ router.post('/', async (req, res) => {
     }).select().single();
     if (error) throw error;
 
-    // Send emails for contact form, visit request, and property submission
+    // Send emails for all lead types
     const emailTypes = ['contact', 'visit_request', 'property_submission', 'inquiry'];
     if (emailTypes.includes(b.type || 'contact')) {
+      // Fetch property title if a property_id was provided
+      let propertyTitle = b.propertyTitle || '';
+      let propertyRef   = b.propertyRef   || '';
+      if (!propertyTitle && b.property) {
+        try {
+          const { data: prop } = await supabase
+            .from('properties')
+            .select('title, ref_id')
+            .eq('id', b.property)
+            .single();
+          if (prop) {
+            propertyTitle = prop.title?.fr || prop.title?.en || '';
+            propertyRef   = prop.ref_id || '';
+          }
+        } catch {}
+      }
+
       sendContactEmails({
-        name:    b.name    || 'Visiteur',
-        email:   b.email   || '',
-        phone:   b.phone   || '',
-        subject: b.subject || b.type || 'Nouveau message',
-        message: b.message || '',
-        type:    b.type    || 'contact',
-      }).catch(err => console.error('Mail send error:', err.message));
+        name:          b.name    || 'Visiteur',
+        email:         b.email   || '',
+        phone:         b.phone   || '',
+        subject:       b.subject || b.type || 'Nouveau message',
+        message:       b.message || '',
+        type:          b.type    || 'contact',
+        propertyTitle,
+        propertyRef,
+      }).catch(err => console.error('⚠️  Mail send error:', err.message));
     }
 
     res.status(201).json(normalize(data));
