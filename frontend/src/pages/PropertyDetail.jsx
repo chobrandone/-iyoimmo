@@ -22,7 +22,7 @@ export default function PropertyDetail() {
   const [similar, setSimilar] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
-  const [form, setForm] = useState({ name: '', phone: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', visitDate: '', message: '' });
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -42,15 +42,17 @@ export default function PropertyDetail() {
     setSubmitting(true);
     try {
       await api.post('/leads', {
-        type: 'visit_request',
-        name: form.name,
-        phone: form.phone,
-        message: form.message,
-        property: id,
-        channel: 'form',
+        type:      'visit_request',
+        name:      form.name,
+        email:     form.email,
+        phone:     form.phone,
+        message:   `${form.visitDate ? `Date souhaitée : ${form.visitDate}\n` : ''}${form.message}`,
+        property:  id,
+        channel:   'form',
+        subject:   `Demande de visite${form.visitDate ? ` — ${form.visitDate}` : ''}`,
       });
       toast.success(t.common.save);
-      setForm({ name: '', phone: '', message: '' });
+      setForm({ name: '', email: '', phone: '', visitDate: '', message: '' });
     } catch {
       toast.error(t.common.error);
     }
@@ -247,9 +249,44 @@ export default function PropertyDetail() {
             <div className="visit-form">
               <h4>{t.property.requestVisit}</h4>
               <form onSubmit={handleVisitRequest}>
-                <input required placeholder="Votre nom" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
-                <input required placeholder="+236 ..." value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
-                <textarea rows={2} placeholder={t.property.visitQuestion} value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
+                <input
+                  required
+                  placeholder="Votre nom"
+                  value={form.name}
+                  onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                />
+                <input
+                  type="email"
+                  required
+                  placeholder="votre@email.com"
+                  value={form.email}
+                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                />
+                <input
+                  required
+                  placeholder="+236 ..."
+                  value={form.phone}
+                  onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                />
+                <div style={{ position: 'relative' }}>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--slate)', marginBottom: 3 }}>
+                    Date de visite souhaitée
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    min={new Date().toISOString().split('T')[0]}
+                    value={form.visitDate}
+                    onChange={e => setForm(f => ({ ...f, visitDate: e.target.value }))}
+                    style={{ width: '100%', marginBottom: 8 }}
+                  />
+                </div>
+                <textarea
+                  rows={2}
+                  placeholder={t.property.visitQuestion}
+                  value={form.message}
+                  onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                />
                 <button type="submit" className="btn-primary" disabled={submitting}>
                   {submitting ? '...' : t.property.sendRequest}
                 </button>

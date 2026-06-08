@@ -246,4 +246,44 @@ async function sendContactEmails({ name, email, phone, subject, message, type, p
     .forEach(f => console.error('⚠️  Mail error:', f.reason?.message));
 }
 
-module.exports = { sendContactEmails };
+// ═══════════════════════════════════════════════════════════════════════════════
+// PROPERTY APPROVAL CONFIRMATION
+// ═══════════════════════════════════════════════════════════════════════════════
+async function sendApprovalEmail({ name, email, propertyTitle, refId, propertyUrl }) {
+  const html = wrap(`
+    <div style="padding:32px;">
+      <div style="background:#DCFCE7;border-left:4px solid #16A34A;border-radius:0 8px 8px 0;padding:16px 20px;margin-bottom:24px;">
+        <p style="margin:0;font-size:16px;font-weight:800;color:#166534;">🎉 Votre bien a été approuvé et publié !</p>
+      </div>
+      <h2 style="margin:0 0 16px;font-size:20px;color:#0A2540;">Félicitations ${name} !</h2>
+      <p style="color:#475569;line-height:1.75;margin-bottom:16px;">
+        Nous avons le plaisir de vous informer que votre bien immobilier a été <strong style="color:#166534">examiné, approuvé et publié</strong>
+        sur notre plateforme IYO Immo. Il est désormais visible par tous nos visiteurs à la recherche d'une propriété à Bangui.
+      </p>
+      <div style="background:#f0f4f8;border-radius:10px;padding:20px;margin-bottom:24px;">
+        <p style="margin:0 0 12px;font-size:11px;color:#64748B;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Détails de votre publication</p>
+        <table style="width:100%;font-size:14px;">
+          <tr><td style="color:#64748B;padding:5px 0;width:110px;">Bien</td><td style="font-weight:600;color:#0A2540;">${propertyTitle}</td></tr>
+          <tr><td style="color:#64748B;padding:5px 0;">Référence</td><td style="font-weight:600;color:#0A2540;">${refId}</td></tr>
+          <tr><td style="color:#64748B;padding:5px 0;">Statut</td><td><span style="background:#DCFCE7;color:#166534;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:700;">✅ Publié</span></td></tr>
+        </table>
+      </div>
+      <p style="color:#475569;line-height:1.75;margin-bottom:24px;">
+        Vous pouvez dès maintenant voir votre annonce en ligne. Notre équipe vous contactera si des acheteurs ou locataires
+        potentiels se manifestent. En attendant, n'hésitez pas à nous contacter pour toute question.
+      </p>
+      <div>
+        ${btn(propertyUrl, '🏠 Voir mon annonce en ligne')}
+        ${btn('https://wa.me/23672637171', '💬 Nous contacter', '#25D366')}
+      </div>
+    </div>`);
+
+  await transporter.sendMail({
+    from:    FROM,
+    to:      email,
+    subject: `✅ Votre bien a été approuvé — IYO Immo (${refId})`,
+    html,
+  });
+}
+
+module.exports = { sendContactEmails, sendApprovalEmail };

@@ -156,6 +156,18 @@ router.post('/:id/approve', protect, async (req, res) => {
       updated_at: new Date().toISOString(),
     }).eq('id', req.params.id);
 
+    // Send approval confirmation email to the property owner
+    if (lead.email) {
+      const { sendApprovalEmail } = require('../utils/mailer');
+      sendApprovalEmail({
+        name:          lead.name,
+        email:         lead.email,
+        propertyTitle: `${sub.type || 'Bien'} — ${sub.neighbourhood || 'Bangui'}`,
+        refId,
+        propertyUrl:   `https://iyoimmobilier.com/properties/${propData.id}`,
+      }).catch(err => console.error('⚠️  Approval mail error:', err.message));
+    }
+
     res.json({ property: normalize(propData), message: 'Property published successfully' });
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
